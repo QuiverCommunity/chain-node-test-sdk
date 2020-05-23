@@ -1,4 +1,4 @@
-package config
+package utils
 
 import (
 	"os"
@@ -20,7 +20,7 @@ func init() {
 	ReadConfig()
 }
 func ReadConfig() (TestConfig, error) {
-	configFilePath := "config.yml"
+	configFilePath := "/config.yml"
 	file, err := os.Open(configFilePath)
 	if err == nil {
 		defer file.Close()
