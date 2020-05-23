@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"os"
 )
@@ -21,7 +20,7 @@ func ReadFile(path string) ([]byte, error) {
 	}
 	defer file.Close()
 	bytes, _ := ioutil.ReadAll(file)
-	return bytes
+	return bytes, nil
 }
 
 func WriteFile(path string, bytes []byte) error {
