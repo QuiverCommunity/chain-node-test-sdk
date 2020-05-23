@@ -24,5 +24,7 @@ func TestStories(t *testing.T) {
 			continue
 		}
 		t.Log("Running story on for", path)
+		// TODO should parse story.yml file
+		// TODO run parsed commands by command name and param based on offset block height
 	}
 }
