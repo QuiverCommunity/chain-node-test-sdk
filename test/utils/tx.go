@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"time"
 
-	cf "github.com/QuiverCommunity/chain-node-test-sdk/config"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -14,7 +13,7 @@ func TxSign(txFilePath string, signerKey string) (string, error) {
 	args := []string{
 		"tx", "sign", txFilePath,
 		"--from", signerKey,
-		"--chain-id", cf.Config.Chain,
+		"--chain-id", Config.Chain,
 	}
 
 	signedTxBytes, _, signErr := RunCli(args, "")
@@ -23,7 +22,7 @@ func TxSign(txFilePath string, signerKey string) (string, error) {
 	}
 
 	signedTxFileName := fmt.Sprintf("signed_tx_%d.json", time.Now().Unix())
-	tmpDir, err := ioutil.TempDir("", cf.Config.Chain)
+	tmpDir, err := ioutil.TempDir("", Config.Chain)
 	if err != nil {
 		panic(err.Error())
 	}

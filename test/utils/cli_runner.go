@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
-
-	cf "github.com/QuiverCommunity/chain-node-test-sdk/config"
 )
 
 func shouldConfigureNode(args []string) bool {
@@ -21,21 +19,21 @@ func shouldConfigureNode(args []string) bool {
 }
 
 func configureNode(args []string) []string {
-	if cf.Config.Node == "" {
+	if Config.Node == "" {
 		return args
 	}
 	if !shouldConfigureNode(args) {
 		return args
 	}
-	return append(args, "--node", cf.Config.Node)
+	return append(args, "--node", Config.Node)
 }
 
 func RunCli(args []string, stdin string) ([]byte, string, error) {
 	args = configureNode(args)
 
-	cmd := exec.Command(cf.Config.CliPath, args...)
+	cmd := exec.Command(Config.CliPath, args...)
 	cmd.Stdin = strings.NewReader(stdin)
-	cmdLog := fmt.Sprintf("%s %s <<< %s", cf.Config.CliPath, strings.Join(args, " "), stdin)
+	cmdLog := fmt.Sprintf("%s %s <<< %s", Config.CliPath, strings.Join(args, " "), stdin)
 	res, err := cmd.CombinedOutput()
 	return res, cmdLog, err
 }
