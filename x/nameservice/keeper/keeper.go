@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	"github.com/QuiverCommunity/chain-node-test-sdk/x/nameservice/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/sdk-tutorials/nameservice/x/nameservice/types"
 )
 
 // Keeper maintains the link to storage and exposes getter/setter methods for the various parts of the state machine

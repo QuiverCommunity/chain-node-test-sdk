@@ -23,5 +23,7 @@ go.sum: go.mod
 		@echo "--> Ensure dependencies have not been modified"
 		GO111MODULE=on go mod verify
 
+integration_test:
+	go test -v ./test/...
 test:
 	@go test -mod=readonly $(PACKAGES)
