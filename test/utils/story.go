@@ -11,17 +11,12 @@ type TestStory struct {
 		Secret  string `yaml:"secret"`
 		Address string `yaml:"address"`
 	} `yaml:"accounts"`
-	StoryContent []struct {
-		OffsetHeight int64  `yaml:"offset_height"`
-		FromKey      string `yaml:"from_key"`
-		Action       string `yaml:"action"`
-		Param        string `yaml:"param"`
-	} `yaml:"story_content"`
+	StoryContent []Action `yaml:"story_content"`
 }
 
 // run parsed commands by command name and param based on offset block height
 func FollowStory(testStory TestStory) (string, error) {
-	// TODO create accounts from keys received from testStory
+	// create accounts from keys received from testStory
 	log := ""
 	for index, account := range testStory.Accounts {
 		log += "\n"
@@ -35,6 +30,7 @@ func FollowStory(testStory TestStory) (string, error) {
 			log += err.Error()
 		}
 	}
-	// TODO run actions based on Story
+	// run worker for the story
+	RunWorker(testStory.StoryContent)
 	return log, nil
 }

@@ -5,9 +5,17 @@ import (
 	"path/filepath"
 	"testing"
 
+	story "github.com/QuiverCommunity/chain-node-test-sdk/test/stories"
 	"github.com/QuiverCommunity/chain-node-test-sdk/test/utils"
 	"gopkg.in/yaml.v2"
 )
+
+func RegisterActions() {
+	// Register functions that are used in stories
+	// You can also register custom functions for customized blockchain test
+	utils.RegisterAction("send_balance", story.SendBalance)
+	utils.RegisterAction("check_balance", story.CheckBalance)
+}
 
 func TestStories(t *testing.T) {
 	var paths []string
@@ -17,6 +25,7 @@ func TestStories(t *testing.T) {
 	if configErr != nil {
 		t.Fatal("reading configuration file failure", configErr)
 	}
+	RegisterActions()
 
 	// read and run stories
 	stories_directory := "stories"
