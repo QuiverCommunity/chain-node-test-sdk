@@ -1,0 +1,26 @@
+{
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "cosmos-sdk/MsgSend",
+          "value": {
+            "from_address": "cosmos1x7ntkvjng6mlaj6rzvqfpklhu0km8el3cdp64n",
+            "to_address": "cosmos1njuzc2g7q3qtdlykz5m0vnfdy50a2sxnj3uwr8",
+            "amount": [
+              {
+                "denom": "jackcoin",
+                "amount": "10"
+              }
+            ]
+          }
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas": "200000"
+      },
+      "signatures": null,
+      "memo": ""
+    }
+  }

@@ -9,7 +9,7 @@ import (
 )
 
 func GetLocalKey(key string) (string, string, error) {
-	addressBytes, cmdLog, err := RunCli([]string{"keys", "show", key, "-a"}, "")
+	addressBytes, cmdLog, err := RunCli([]string{"keys", "show", key, "-a"})
 	address := strings.Trim(string(addressBytes), "\n ")
 
 	return address, cmdLog, err
@@ -18,7 +18,7 @@ func GetLocalKey(key string) (string, string, error) {
 func QueryAccountByAddress(address string) (auth.BaseAccount, string, error) {
 	var account auth.BaseAccount
 
-	accJSONBytes, cmdLog, queryErr := RunCli([]string{"query", "account", address}, "")
+	accJSONBytes, cmdLog, queryErr := RunCli([]string{"query", "account", address})
 	if queryErr != nil {
 		return account, cmdLog, queryErr
 	}
@@ -35,21 +35,23 @@ func QueryAccountByKey(key string) (auth.BaseAccount, string, error) {
 	return QueryAccountByAddress(address)
 }
 
-func QueryNodeStatus() (*ctypes.ResultStatus, error) {
+func QueryNodeStatus() (*ctypes.ResultStatus, string, error) {
 	var nodeStatus ctypes.ResultStatus
-	nodeStatusBytes, _, queryErr := RunCli([]string{"status"}, "")
+	nodeStatusBytes, cmdLog, queryErr := RunCli([]string{"status"})
 
 	if queryErr != nil {
-		return nil, queryErr
+		cmdLog += "\n"
+		cmdLog += string(nodeStatusBytes)
+		return nil, cmdLog, queryErr
 	}
 
 	codecErr := MakeCodec().UnmarshalJSON(nodeStatusBytes, &nodeStatus)
-	return &nodeStatus, codecErr
+	return &nodeStatus, cmdLog, codecErr
 }
 
 func QueryRawTxResponse(txhash string) (sdk.TxResponse, error) {
 	var txResponse sdk.TxResponse
-	txResponseBytes, _, queryErr := RunCli([]string{"query", "tx", txhash}, "")
+	txResponseBytes, _, queryErr := RunCli([]string{"query", "tx", txhash})
 
 	if queryErr != nil {
 		return txResponse, queryErr
