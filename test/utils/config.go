@@ -12,6 +12,7 @@ type TestConfig struct {
 	Chain              string `yaml:"chain"`
 	InitialBlockHeight int64  `yaml:"initial_block_height"`
 	StoriesDir         string `yaml:"stories_dir"`
+	EnvSetupFile       string `yaml:"test_env_setup`
 }
 
 var Config TestConfig

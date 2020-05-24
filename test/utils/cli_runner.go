@@ -46,3 +46,11 @@ func RunCliStdin(args []string, stdin string) ([]byte, string, error) {
 	res, err := cmd.CombinedOutput()
 	return res, cmdLog, err
 }
+
+func RunShellScript(args []string, stdin string) ([]byte, string, error) {
+	cmd := exec.Command("bash", args...)
+	cmd.Stdin = strings.NewReader(stdin)
+	cmdLog := fmt.Sprintf("%s %s <<< %s", Config.CliPath, strings.Join(args, " "), stdin)
+	res, err := cmd.CombinedOutput()
+	return res, cmdLog, err
+}

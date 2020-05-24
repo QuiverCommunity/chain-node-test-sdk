@@ -11,8 +11,8 @@ story_content:
   - offset_height: 0
     from_key: jack
     action: send_balance
-    param: ./data/story1/tx/t1.json
-  - offset_height: 1
+    param: ./data/story1/params/send_balance.json
+  - offset_height: 2
     from_key: alice
     action: check_balance
-    param: ./data/story1/check/c1.json
+    param: ./data/story1/params/check_balance.json

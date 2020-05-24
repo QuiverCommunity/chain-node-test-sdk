@@ -4,3 +4,4 @@ cli_path: nscli
 chain: nameservice
 initial_block_height: 1
 stories_dir: ./stories
+test_env_setup: test-env-setup.sh
