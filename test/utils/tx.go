@@ -16,7 +16,7 @@ func TxSign(txFilePath string, signerKey string) (string, error) {
 		"--chain-id", Config.Chain,
 	}
 
-	signedTxBytes, _, signErr := RunCli(args, "")
+	signedTxBytes, _, signErr := RunCli(args)
 	if signErr != nil {
 		return "", signErr
 	}
@@ -34,7 +34,7 @@ func TxSign(txFilePath string, signerKey string) (string, error) {
 func TxBroadcast(signedTxFilePath string) (sdk.TxResponse, error) {
 	txResponse := sdk.TxResponse{}
 	args := []string{"tx", "broadcast", signedTxFilePath}
-	castOutputBytes, _, castErr := RunCli(args, "")
+	castOutputBytes, _, castErr := RunCli(args)
 
 	if castErr != nil {
 		return txResponse, castErr

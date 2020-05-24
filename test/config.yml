@@ -1,6 +1,6 @@
 # configuration for tests
 node: tcp://localhost:26657
-cli_path: ./nscli
+cli_path: nscli
 chain: nameservice
 initial_block_height: 1
 stories_dir: ./stories

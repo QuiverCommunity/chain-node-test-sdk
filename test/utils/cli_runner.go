@@ -28,8 +28,17 @@ func configureNode(args []string) []string {
 	return append(args, "--node", Config.Node)
 }
 
-func RunCli(args []string, stdin string) ([]byte, string, error) {
+func configureKeyring(args []string) []string {
+	return append(args, "--keyring-backend", "test")
+}
+
+func RunCli(args []string) ([]byte, string, error) {
+	return RunCliStdin(args, "")
+}
+
+func RunCliStdin(args []string, stdin string) ([]byte, string, error) {
 	args = configureNode(args)
+	args = configureKeyring(args)
 
 	cmd := exec.Command(Config.CliPath, args...)
 	cmd.Stdin = strings.NewReader(stdin)

@@ -12,6 +12,13 @@ import (
 func TestStories(t *testing.T) {
 	var paths []string
 
+	// read test configuration
+	_, configErr := utils.ReadConfig()
+	if configErr != nil {
+		t.Fatal("reading configuration file failure", configErr)
+	}
+
+	// read and run stories
 	stories_directory := "stories"
 	err := filepath.Walk(stories_directory, func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
@@ -39,6 +46,19 @@ func TestStories(t *testing.T) {
 		}
 		t.Log("Running story on for", testStory.Name, "for", path)
 		t.Log(testStory)
-		// TODO run parsed commands by command name and param based on offset block height
+
+		// run parsed command on test story
+		log, storyErr := utils.FollowStory(testStory)
+
+		// log the result of the story
+		t.Log("Please check story log for", testStory.Name)
+		t.Log(log)
+		t.Log("-----------------------------------------")
+		if storyErr != nil {
+			t.Fatal("FAIL:\terror running story for", path, "\n", storyErr)
+		} else {
+			t.Log("PASS:\tsuccess running story for", path)
+		}
+		t.Log("That's all of the log collected for", testStory.Name)
 	}
 }
