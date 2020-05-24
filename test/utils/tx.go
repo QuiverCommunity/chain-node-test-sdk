@@ -9,26 +9,29 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func TxSign(txFilePath string, signerKey string) (string, error) {
+func TxSign(txFilePath string, signerKey string) (string, string, error) {
+	log := ""
 	args := []string{
 		"tx", "sign", txFilePath,
 		"--from", signerKey,
 		"--chain-id", Config.Chain,
 	}
 
-	signedTxBytes, _, signErr := RunCli(args)
+	signedTxBytes, signLog, signErr := RunCli(args)
+	log += signLog
 	if signErr != nil {
-		return "", signErr
+		log += string(signedTxBytes)
+		return "", log, signErr
 	}
 
 	signedTxFileName := fmt.Sprintf("signed_tx_%d.json", time.Now().Unix())
 	tmpDir, err := ioutil.TempDir("", Config.Chain)
 	if err != nil {
-		panic(err.Error())
+		return "", log, err
 	}
 	signedTxFilePath := filepath.Join(tmpDir, signedTxFileName)
 	writeErr := WriteFile(signedTxFilePath, signedTxBytes)
-	return signedTxFilePath, writeErr
+	return signedTxFilePath, signLog, writeErr
 }
 
 func TxBroadcast(signedTxFilePath string) (sdk.TxResponse, error) {
@@ -44,10 +47,11 @@ func TxBroadcast(signedTxFilePath string) (sdk.TxResponse, error) {
 	return txResponse, codecErr
 }
 
-func SendTxFromSignerKey(txFilePath string, signerKey string) (sdk.TxResponse, error) {
-	signedTxFilePath, signErr := TxSign(txFilePath, signerKey)
+func SendTxFromSignerKey(txFilePath string, signerKey string) (sdk.TxResponse, string, error) {
+	signedTxFilePath, signLog, signErr := TxSign(txFilePath, signerKey)
 	if signErr != nil {
-		return sdk.TxResponse{}, signErr
+		return sdk.TxResponse{}, signLog, signErr
 	}
-	return TxBroadcast(signedTxFilePath)
+	txResponse, err := TxBroadcast(signedTxFilePath)
+	return txResponse, signLog, err
 }

@@ -1,4 +1,4 @@
 {
     "from_key": "jack",
-    "tx_file": "./data/story1/tx/t1.json"
+    "tx_file": "./stories/story1/tx/t1.json"
 }

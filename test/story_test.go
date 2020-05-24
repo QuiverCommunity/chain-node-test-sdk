@@ -17,8 +17,8 @@ func RegisterActions() {
 	utils.RegisterAction("check_balance", story.CheckBalance)
 }
 
-func TestEnvSetup() ([]byte, string, error) {
-	return utils.RunShellScript([]string{utils.Config.EnvSetupFile}, "")
+func EnvironmentSetup() ([]byte, string, error) {
+	return utils.RunShellScript([]string{utils.Config.EnvironmentSetupFile}, "")
 }
 
 func TestStories(t *testing.T) {
@@ -29,10 +29,10 @@ func TestStories(t *testing.T) {
 	if configErr != nil {
 		t.Fatal("reading configuration file failure", configErr)
 	}
-	envSetupBytes, envSetupLog, envSetupErr := TestEnvSetup()
-	if envSetupErr != nil {
-		t.Fatal(envSetupLog, envSetupBytes)
-	}
+	// envSetupBytes, envSetupLog, envSetupErr := EnvironmentSetup()
+	// if envSetupErr != nil {
+	// 	t.Fatal(envSetupLog, string(envSetupBytes))
+	// }
 	RegisterActions()
 
 	// read and run stories

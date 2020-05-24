@@ -7,12 +7,12 @@ import (
 )
 
 type TestConfig struct {
-	Node               string `yaml:"node"`
-	CliPath            string `yaml:"cli_path"`
-	Chain              string `yaml:"chain"`
-	InitialBlockHeight int64  `yaml:"initial_block_height"`
-	StoriesDir         string `yaml:"stories_dir"`
-	EnvSetupFile       string `yaml:"test_env_setup`
+	Node                 string `yaml:"node"`
+	CliPath              string `yaml:"cli_path"`
+	Chain                string `yaml:"chain"`
+	InitialBlockHeight   int64  `yaml:"initial_block_height"`
+	StoriesDir           string `yaml:"stories_dir"`
+	EnvironmentSetupFile string `yaml:"env_setup_file"`
 }
 
 var Config TestConfig

@@ -29,6 +29,17 @@ func configureNode(args []string) []string {
 }
 
 func configureKeyring(args []string) []string {
+	if len(args) == 0 {
+		return args
+	}
+	switch args[0] {
+	case "status":
+		return args
+	case "query":
+		if len(args) > 1 && args[1] == "account" {
+			return args
+		}
+	}
 	return append(args, "--keyring-backend", "test")
 }
 
@@ -42,7 +53,10 @@ func RunCliStdin(args []string, stdin string) ([]byte, string, error) {
 
 	cmd := exec.Command(Config.CliPath, args...)
 	cmd.Stdin = strings.NewReader(stdin)
-	cmdLog := fmt.Sprintf("%s %s <<< %s", Config.CliPath, strings.Join(args, " "), stdin)
+	cmdLog := fmt.Sprintf("%s %s", Config.CliPath, strings.Join(args, " "))
+	if stdin != "" {
+		cmdLog += fmt.Sprintf("<<< %s", stdin)
+	}
 	res, err := cmd.CombinedOutput()
 	return res, cmdLog, err
 }
@@ -50,7 +64,7 @@ func RunCliStdin(args []string, stdin string) ([]byte, string, error) {
 func RunShellScript(args []string, stdin string) ([]byte, string, error) {
 	cmd := exec.Command("bash", args...)
 	cmd.Stdin = strings.NewReader(stdin)
-	cmdLog := fmt.Sprintf("%s %s <<< %s", Config.CliPath, strings.Join(args, " "), stdin)
+	cmdLog := fmt.Sprintf("bash %s <<< %s", strings.Join(args, " "), stdin)
 	res, err := cmd.CombinedOutput()
 	return res, cmdLog, err
 }

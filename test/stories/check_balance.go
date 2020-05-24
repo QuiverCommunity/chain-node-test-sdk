@@ -16,22 +16,34 @@ type CheckBalanceParam struct {
 }
 
 func CheckBalance(paramf string) (string, error) {
+	log := "started CheckBalance function\n"
 	paramBytes, readFileErr := utils.ReadFile(paramf)
+	// log += "\n"
+	// log += string(paramBytes)
 	if readFileErr != nil {
-		return "", readFileErr
+		log += fmt.Sprintf("failed reading file for %s", paramf)
+		return log, readFileErr
 	}
 	param := CheckBalanceParam{}
 	paramErr := json.Unmarshal(paramBytes, &param)
 	if paramErr != nil {
-		return "", paramErr
+		log += fmt.Sprintf("failed decoding parameter for %+v", paramErr)
+		return log, paramErr
 	}
 	account, cmdLog, queryErr := utils.QueryAccountByKey(param.Key)
+	log += cmdLog
 	if queryErr != nil {
-		return cmdLog, queryErr
+		log += fmt.Sprintf("failed querying account for %s", param.Key)
+		return log, queryErr
 	}
 	denomAmount := account.Coins.AmountOf(param.Denom)
 	if !denomAmount.Equal(sdk.NewInt(param.Balance)) {
-		return "", errors.New(fmt.Sprintf("account %s does not have balance of %d for %s denom, but have %d", param.Key, param.Balance, param.Denom, denomAmount))
+		checkErrText := fmt.Sprintf("account %s does not have balance of %d for %s denom, but have %d", param.Key, param.Balance, param.Denom, denomAmount.Int64())
+		log += "\n"
+		log += checkErrText
+		log += fmt.Sprintf("\n%+v", account)
+		return log, errors.New(checkErrText)
 	}
-	return cmdLog, nil
+	log += fmt.Sprintf("checked that balance is ok for %s key", param.Key)
+	return log, nil
 }

@@ -35,16 +35,18 @@ func QueryAccountByKey(key string) (auth.BaseAccount, string, error) {
 	return QueryAccountByAddress(address)
 }
 
-func QueryNodeStatus() (*ctypes.ResultStatus, error) {
+func QueryNodeStatus() (*ctypes.ResultStatus, string, error) {
 	var nodeStatus ctypes.ResultStatus
-	nodeStatusBytes, _, queryErr := RunCli([]string{"status"})
+	nodeStatusBytes, cmdLog, queryErr := RunCli([]string{"status"})
 
 	if queryErr != nil {
-		return nil, queryErr
+		cmdLog += "\n"
+		cmdLog += string(nodeStatusBytes)
+		return nil, cmdLog, queryErr
 	}
 
 	codecErr := MakeCodec().UnmarshalJSON(nodeStatusBytes, &nodeStatus)
-	return &nodeStatus, codecErr
+	return &nodeStatus, cmdLog, codecErr
 }
 
 func QueryRawTxResponse(txhash string) (sdk.TxResponse, error) {

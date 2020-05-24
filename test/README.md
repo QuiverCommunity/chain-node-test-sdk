@@ -10,5 +10,10 @@ node, cli_path, chain name, initial_block_height, stories_dir are configurable
 - automatic running of transactions on provided blocks
 - custom action registration running
 
+# How to run this
+
+Initialize node configuration and run node by running `sh ./test/test-env-setup.sh`.
+Run integration test using `make integration_test`
+
 # How to integrate this to your project
 

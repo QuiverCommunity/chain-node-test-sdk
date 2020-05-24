@@ -1,9 +1,5 @@
 package utils
 
-import (
-	"fmt"
-)
-
 type TestStory struct {
 	Name     string `yaml:"name"`
 	Accounts []struct {
@@ -18,19 +14,22 @@ type TestStory struct {
 func FollowStory(testStory TestStory) (string, error) {
 	// create accounts from keys received from testStory
 	log := ""
-	for index, account := range testStory.Accounts {
-		log += "\n"
-		addedKeyBytes, cmdLog, err := RunCliStdin([]string{"keys", "add", account.Key}, "y\n"+account.Secret)
-		log += fmt.Sprintf("adding %dth account for %s\n", index, account.Key)
-		log += cmdLog
-		log += "\n"
-		log += string(addedKeyBytes)
-		if err != nil {
-			log += "\n"
-			log += err.Error()
-		}
-	}
+	// for index, account := range testStory.Accounts {
+	// 	log += "\n"
+	// 	// nscli keys delete alice --keyring-backend=test
+	// 	RunCli([]string{"keys", "delete", account.Key})
+	// 	addedKeyBytes, cmdLog, err := RunCliStdin([]string{"keys", "add", account.Key, "--recover"}, "\""+account.Secret+"\"")
+	// 	log += fmt.Sprintf("adding %dth account for %s\n", index, account.Key)
+	// 	log += cmdLog
+	// 	log += "\n"
+	// 	log += string(addedKeyBytes)
+	// 	if err != nil {
+	// 		log += "\n"
+	// 		log += err.Error()
+	// 	}
+	// }
 	// run worker for the story
-	RunWorker(testStory.StoryContent)
-	return log, nil
+	workerLog, workerErr := RunWorker(testStory.StoryContent)
+	log += workerLog
+	return log, workerErr
 }
