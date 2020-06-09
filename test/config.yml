@@ -1,6 +1,7 @@
 # configuration for tests
 node: tcp://localhost:26657
-cli_path: ./nscli
-chain: nameservice
+cli_path: nscli
+chain: quiverchain
 initial_block_height: 1
 stories_dir: ./stories
+env_setup_file: ./test-env-setup.sh

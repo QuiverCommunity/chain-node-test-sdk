@@ -1,18 +1,21 @@
 # On this story, jack send balance to alice and alice confirm that she has received the balance.
 name: story1
 accounts: 
-  - name: jack
+  - key: jack
     secret: retreat priority grab fence large clog cricket nature caution undo toy hand island evil fish coil entry dizzy tattoo business elder tilt arch ball
     address: cosmos1x7ntkvjng6mlaj6rzvqfpklhu0km8el3cdp64n
-  - name: alice
+  - key: alice
     secret: script awake speed sweet obscure act shuffle mammal laptop lab holiday nuclear toy slogan oak direct couch vanish shiver silly neglect nurse enemy indoor
     address: cosmos1njuzc2g7q3qtdlykz5m0vnfdy50a2sxnj3uwr8
 story_content:
-  - offset_height: 0
-    from: jack
+  - action_id: story1_send_balance_from_jack_to_alice
+    offset_height: 0
+    from_key: jack
     action: send_balance
-    param: ./data/story1/tx/t1.json
-  - offset_height: 1
-    from: alice
+    param: ./stories/story1/params/send_balance.json
+  - action_id: story1_check_balance_from_alice
+    offset_height: 2
+    modify_block_height_source: story1_send_balance_from_jack_to_alice
+    from_key: alice
     action: check_balance
-    param: ./data/story1/check/c1.json
+    param: ./stories/story1/params/check_balance.json
